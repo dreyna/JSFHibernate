@@ -7,9 +7,11 @@ package daoimpl;
 
 import dao.UsuarioDao;
 import entidades.Usuario;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 
@@ -38,34 +40,76 @@ public class UsuarioDaoImpl implements UsuarioDao{
         }
         return user;
     }
-    @Override
+   @Override
     public boolean registrarUsuario(Usuario u) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean op = false;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            session.save(u);
+            t.commit();
+            op = true;
+        } catch (Exception e) {
+        }
+        return op;
     }
 
     @Override
     public boolean modificarUsuario(Usuario u) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean op = false;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            session.delete(u);
+            t.commit();
+            op = true;
+        } catch (Exception e) {
+        }
+        return op;
     }
 
     @Override
-    public boolean eliminarUsuario(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean eliminarUsuario(Usuario u) {
+        boolean op = false;
+        try{
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        session.delete(u);
+        t.commit();
+        op = true;
+        }catch(Exception e){
+            
+        }finally{
+            session.close();
+        }
+        return op;
     }
 
     @Override
-    public List<Usuario> listarUsuario(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Usuario getUsuario(int id) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        return (Usuario) session.load(Usuario.class, id);
     }
 
     @Override
-    public List<Usuario> buscarUsuario(String user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Usuario buscarUsuario(String user) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        return (Usuario) session.load(Usuario.class, user);        
     }
 
     @Override
-    public List<Usuario> listarUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public List<Usuario> listarUser() {
+        List<Usuario> lista = new ArrayList<>();
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            lista = session.createQuery("from Usuario").list();
+            t.commit();
+        } catch (Exception e) {
+        }finally{
+            session.close();
+        }        
+        return lista;
+    }    
     
 }
