@@ -49,10 +49,14 @@
                             <h:outputText value="Excluir"/>
                         </f:facet>
                         <h:form>
-                            <h:commandButton  value="Excluir"/>
+                            <h:commandButton action="#{loginBeans.excluirUsuario()}" value="Excluir" />
                         </h:form>
                     </p:column>
                 </p:dataTable>
+                    <br/>
+                    <h:form>
+                        <p:commandLink value="Novo Livro" action="#{livroController.prepararAdicionarLivro}"/>
+                    </h:form>
                     </div>
             </ui:define>
 

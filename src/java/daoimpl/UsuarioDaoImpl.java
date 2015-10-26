@@ -60,7 +60,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            session.delete(u);
+            session.update(u);
             t.commit();
             op = true;
         } catch (Exception e) {
