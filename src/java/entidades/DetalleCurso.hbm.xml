@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/10/2015 06:30:40 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entidades.DetalleCurso" table="detalle_curso" catalog="bd_prueba" optimistic-lock="version">
+        <id name="idDetalleCurso" type="java.lang.Integer">
+            <column name="idDetalle_Curso" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="alumno" class="entidades.Alumno" fetch="select">
+            <column name="Alumno_idAlumno" not-null="true" />
+        </many-to-one>
+        <many-to-one name="curso" class="entidades.Curso" fetch="select">
+            <column name="Curso_idCurso" not-null="true" />
+        </many-to-one>
+        <property name="nota1" type="java.lang.Integer">
+            <column name="nota1" />
+        </property>
+        <property name="nota2" type="java.lang.Integer">
+            <column name="nota2" />
+        </property>
+        <property name="nota3" type="java.lang.Integer">
+            <column name="nota3" />
+        </property>
+        <property name="promedio" type="java.lang.Double">
+            <column name="promedio" precision="22" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>
