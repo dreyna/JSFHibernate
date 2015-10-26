@@ -8,9 +8,12 @@ package beans;
 import dao.UsuarioDao;
 import daoimpl.UsuarioDaoImpl;
 import entidades.Usuario;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 
 /**
  *
@@ -20,6 +23,7 @@ import javax.faces.context.FacesContext;
 @RequestScoped
 public class LoginBeans {
     private Usuario usuario = new Usuario();
+    private DataModel listaUsuarios;
     public Usuario getUsuario() {
         return usuario;
     }
@@ -57,4 +61,37 @@ public class LoginBeans {
    FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
    return "logueo?faces-redirect=true";
    }
+    public DataModel getListarUsuarios() {
+        List<Usuario> lista = new UsuarioDaoImpl().listarUser();
+        listaUsuarios = new ListDataModel(lista);
+        return listaUsuarios;
+    }
+     public String prepararAdicionarUsuario() {
+        usuario = new Usuario();
+        return "insertar";
+    }
+
+    public String prepararmodificarUsuario() {
+        usuario = (Usuario) (listaUsuarios.getRowData());
+        return "modificar";
+    }
+
+    public String excluirUsuario() {
+        Usuario userTemp = (Usuario) (listaUsuarios.getRowData());
+        UsuarioDao dao = new UsuarioDaoImpl();
+        dao.eliminarUsuario(userTemp);
+        return "listar";
+    }
+
+    public String adicionarUsuario() {
+        UsuarioDao dao = new UsuarioDaoImpl();
+        dao.registrarUsuario(usuario);
+        return "listar";
+    }
+
+    public String alterarLUsuario() {
+        UsuarioDao dao = new UsuarioDaoImpl();
+        dao.modificarUsuario(usuario);
+        return "listar";
+    }
 }

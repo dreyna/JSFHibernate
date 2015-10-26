@@ -1,7 +1,13 @@
 *{
     margin: 0 auto;
+}
     #incio{
         width: 600px;
         height: 447px;        
     }
-}
+    #user2{
+        width: 500px;
+        height: auto;
+        margin: 20px;
+    }
+
